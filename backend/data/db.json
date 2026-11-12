@@ -1,0 +1,439 @@
+{
+  "users": [],
+  "conversations": [
+    {
+      "id": "59973cca-dcb1-48a2-9317-775a93fa3104",
+      "userId": "guest_user",
+      "title": "Explain Flutter state management an...",
+      "messages": [
+        {
+          "id": "c155d95b-e9e2-4cc2-8cdb-5e62e5723771",
+          "role": "user",
+          "content": "Explain Flutter state management and Provider pattern in 2 bullet points.",
+          "timestamp": "2026-11-12T08:21:34.183Z"
+        },
+        {
+          "id": "41207a28-0fa5-4829-902d-59bb02ffea8a",
+          "role": "assistant",
+          "content": "### 🚀 Vision AI – Flutter & Dart Guidance\n\n\n\nFlutter is Google's UI toolkit for building beautiful, natively compiled cross-platform applications from a single codebase.\n\n#### Key Architectural Pillars:\n1. **Everything is a Widget:** From layout containers (`Row`, `Column`, `Stack`) to reactive controls (`ElevatedButton`, `TextField`).\n2. **Declarative UI:** The UI rebuilds reactively based on State changes: `Widget build(BuildContext context)`.\n3. **Modern State Management:** Provider, Riverpod, or Bloc pattern for predictable data flow.\n\n```dart\nimport 'package:flutter/material.dart';\n\nclass VisionCounterWidget extends StatefulWidget {\n  const VisionCounterWidget({super.key});\n\n  @override\n  State<VisionCounterWidget> createState() => _VisionCounterWidgetState();\n}\n\nclass _VisionCounterWidgetState extends State<VisionCounterWidget> {\n  int _count = 0;\n\n  @override\n  Widget build(BuildContext context) {\n    return ElevatedButton.icon(\n      icon: const Icon(Icons.bolt, color: Colors.amber),\n      label: Text('AI Interactions: $_count'),\n      onPressed: () => setState(() => _count++),\n    );\n  }\n}\n```\n\n*Would you like to explore state management, API integration, or responsive layouts for Flutter Web?*",
+          "modelUsed": "Vision AI Engine (Local Intelligent Mode)",
+          "isLiveGemini": false,
+          "timestamp": "2026-11-12T08:21:34.184Z"
+        },
+        {
+          "id": "41709307-9a0e-4874-b6ea-1985fcda278e",
+          "role": "user",
+          "content": "Can you show a code example for that?",
+          "timestamp": "2026-11-12T08:21:34.186Z"
+        },
+        {
+          "id": "a87d3ed8-a602-42ed-9df6-108a85ac698e",
+          "role": "assistant",
+          "content": "### 💻 Full-Stack Development & Architecture\n\n\n\nHere is how to design a resilient and responsive asynchronous communication pattern:\n\n```javascript\n// Reusable async service with error interception\nasync function fetchAssistantData(endpoint, payload) {\n  try {\n    const response = await fetch(`/api/${endpoint}`, {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify(payload)\n    });\n    \n    if (!response.ok) {\n      throw new Error(`HTTP error! status: ${response.status}`);\n    }\n    \n    return await response.json();\n  } catch (error) {\n    console.error('Service request failed:', error.message);\n    throw error;\n  }\n}\n```\n\nWhat specific function or bug would you like me to analyze?",
+          "modelUsed": "Vision AI Engine (Local Intelligent Mode)",
+          "isLiveGemini": false,
+          "timestamp": "2026-11-12T08:21:34.186Z"
+        }
+      ],
+      "createdAt": "2026-11-12T08:21:34.183Z",
+      "updatedAt": "2026-11-12T08:21:34.186Z"
+    },
+    {
+      "id": "c7ab57be-84ef-402b-8ac5-73a7a05795d3",
+      "userId": "guest_user",
+      "title": "What are the core features of Visio...",
+      "messages": [
+        {
+          "id": "e56aa0f5-141f-4e15-b910-5af8f9697e97",
+          "role": "user",
+          "content": "What are the core features of Vision AI?",
+          "timestamp": "2026-11-12T07:50:56.195Z"
+        },
+        {
+          "id": "410d235e-c768-4818-989f-98202b2fab98",
+          "role": "assistant",
+          "content": "### 🧠 Python & AI Engineering\n\n\n\nPython is the premier language for artificial intelligence, generative models, and backend data processing.\n\n#### Integrating Google Gemini in Python:\n```python\nimport google.generativeai as genai\nimport os\n\ngenai.configure(api_key=os.environ.get(\"GEMINI_API_KEY\"))\n\n# Instantiate the state-of-the-art multimodal model\nmodel = genai.GenerativeModel('gemini-1.5-flash')\n\nresponse = model.generate_content(\"Explain quantum computing in three clear bullet points.\")\nprint(response.text)\n```\n\n#### Best Practices:\n- Use virtual environments (`python -m venv venv`).\n- Keep your API secrets in `.env` files—never commit keys to version control.\n- Stream responses for real-time conversational latency.",
+          "modelUsed": "Vision AI Engine (Local Intelligent Mode)",
+          "isLiveGemini": false,
+          "timestamp": "2026-11-12T07:50:56.195Z"
+        }
+      ],
+      "createdAt": "2026-11-12T07:50:56.195Z",
+      "updatedAt": "2026-11-12T07:50:56.195Z"
+    }
+  ],
+  "courses": [
+    {
+      "id": "course-flutter",
+      "title": "Flutter & Dart: Cross-Platform Mastery",
+      "category": "Mobile & Web",
+      "icon": "mobile_friendly",
+      "level": "Beginner to Advanced",
+      "duration": "18 hours",
+      "rating": 4.9,
+      "studentsCount": 3420,
+      "description": "Build native iOS, Android, and Web applications from a single codebase using Flutter and Dart. Master widgets, state management, animations, and API integration.",
+      "modules": [
+        {
+          "id": "m1",
+          "title": "Introduction to Dart & Object-Oriented Programming",
+          "lessons": [
+            "Dart Syntax, Variables, Null Safety",
+            "Functions, Classes, and Mixins",
+            "Asynchronous Programming: Futures & Streams"
+          ]
+        },
+        {
+          "id": "m2",
+          "title": "Flutter UI Fundamentals & Layout System",
+          "lessons": [
+            "Stateless vs Stateful Widgets",
+            "Rows, Columns, Flex, and Stack Layouts",
+            "Theming, Material 3, and Typography"
+          ]
+        },
+        {
+          "id": "m3",
+          "title": "State Management & Architecture",
+          "lessons": [
+            "Provider and Riverpod patterns",
+            "Clean Architecture and Repository Pattern",
+            "REST API integration with http and dio"
+          ]
+        },
+        {
+          "id": "m4",
+          "title": "Advanced Features & Deployment",
+          "lessons": [
+            "Custom Animations & Hero Transitions",
+            "Web optimization and responsive layouts",
+            "Building and publishing for Web & Mobile"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-python",
+      "title": "Python for AI & Modern Development",
+      "category": "Programming & AI",
+      "icon": "terminal",
+      "level": "All Levels",
+      "duration": "22 hours",
+      "rating": 4.95,
+      "studentsCount": 5210,
+      "description": "From syntax to AI algorithms. Master Python 3, object-oriented design, data manipulation with Pandas, automation, and integrating Gemini LLM APIs.",
+      "modules": [
+        {
+          "id": "m1",
+          "title": "Python Essentials & Data Structures",
+          "lessons": [
+            "Data Types, Lists, Dicts, Sets & Comprehensions",
+            "Functions, *args, **kwargs, Decorators",
+            "Error Handling, Context Managers & OOP"
+          ]
+        },
+        {
+          "id": "m2",
+          "title": "Working with APIs and Data",
+          "lessons": [
+            "HTTP requests, JSON parsing and web scraping",
+            "Data handling with Pandas & NumPy",
+            "File I/O, CSV, and SQLite integration"
+          ]
+        },
+        {
+          "id": "m3",
+          "title": "Building AI Assistants & Automation",
+          "lessons": [
+            "Integrating Google Gemini Generative AI SDK",
+            "Prompt Engineering & Structured JSON Outputs",
+            "Building CLI tools and FastAPI microservices"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-react",
+      "title": "Modern React 19 & Full-Stack Systems",
+      "category": "Web Development",
+      "icon": "code",
+      "level": "Intermediate",
+      "duration": "16 hours",
+      "rating": 4.88,
+      "studentsCount": 4120,
+      "description": "Learn modern React hooks, server components, state management with Zustand/Redux, Tailwind CSS, and connecting to Express REST APIs.",
+      "modules": [
+        {
+          "id": "m1",
+          "title": "React Core & Modern Hooks",
+          "lessons": [
+            "JSX, Props, useState & useEffect mastery",
+            "useMemo, useCallback & Performance optimization",
+            "Custom Hooks and Reusable UI components"
+          ]
+        },
+        {
+          "id": "m2",
+          "title": "State Management & Routing",
+          "lessons": [
+            "React Router 6.4+ nested routes and loaders",
+            "Global State: Context API vs Zustand",
+            "React Query (TanStack Query) for API data caching"
+          ]
+        },
+        {
+          "id": "m3",
+          "title": "Production Full-Stack Integration",
+          "lessons": [
+            "Connecting to Node.js & Express REST APIs",
+            "Authentication flows: JWT and Protected Routes",
+            "Deployment on Vercel and Netlify"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-javascript",
+      "title": "JavaScript: Zero to ESNext Hero",
+      "category": "Web Development",
+      "icon": "javascript",
+      "level": "Beginner to Intermediate",
+      "duration": "15 hours",
+      "rating": 4.85,
+      "studentsCount": 6300,
+      "description": "Master the backbone of web development: Event loops, closures, prototypes, asynchronous JavaScript, modern ES6+ features, and DOM manipulation.",
+      "modules": [
+        {
+          "id": "m1",
+          "title": "Foundations & Scope",
+          "lessons": [
+            "Variables, Datatypes, Operators and Type Coercion",
+            "Execution Context, Hoisting, Scope and Closures",
+            "Higher-Order Functions and Array methods"
+          ]
+        },
+        {
+          "id": "m2",
+          "title": "Asynchronous JavaScript & Web APIs",
+          "lessons": [
+            "Event Loop, Microtasks, and Callbacks",
+            "Promises, Async/Await and Error Handling",
+            "Fetch API, LocalStorage and Event Listeners"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-java",
+      "title": "Java 21 & Enterprise Architecture",
+      "category": "Enterprise Software",
+      "icon": "developer_board",
+      "level": "Intermediate",
+      "duration": "20 hours",
+      "rating": 4.8,
+      "studentsCount": 2890,
+      "description": "Comprehensive Java course covering modern OOP, Generics, Collections Framework, Streams API, Virtual Threads, and backend REST microservices.",
+      "modules": [
+        {
+          "id": "m1",
+          "title": "OOP & Core Language",
+          "lessons": [
+            "Polymorphism, Inheritance, Encapsulation, Abstraction",
+            "Interfaces, Records, and Sealed Classes",
+            "Exception Handling and Custom Exceptions"
+          ]
+        },
+        {
+          "id": "m2",
+          "title": "Collections & Modern Features",
+          "lessons": [
+            "Lists, Sets, Maps, and Hash Algorithms",
+            "Streams API and Lambda Expressions",
+            "Virtual Threads and Concurrency"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-html-css",
+      "title": "HTML5 & Modern CSS3 / Flex & Grid Mastery",
+      "category": "Web Design",
+      "icon": "html",
+      "level": "Beginner",
+      "duration": "10 hours",
+      "rating": 4.9,
+      "studentsCount": 7100,
+      "description": "Create stunning, accessible, responsive websites with semantic HTML5, CSS Flexbox, Grid, CSS Variables, smooth transitions, and keyframe animations.",
+      "modules": [
+        {
+          "id": "m1",
+          "title": "Semantic HTML5 & Accessibility",
+          "lessons": [
+            "Semantic Structure: Header, Nav, Main, Section, Footer",
+            "Forms, Inputs, Validation and Accessibility (a11y)",
+            "SEO best practices and meta tags"
+          ]
+        },
+        {
+          "id": "m2",
+          "title": "Modern CSS3 Layouts & Animations",
+          "lessons": [
+            "CSS Box Model, Positioning, and Flexbox",
+            "CSS Grid for 2D responsive layouts",
+            "Media Queries, Custom Properties & Glassmorphism"
+          ]
+        }
+      ]
+    }
+  ],
+  "userProgress": {
+    "guest_user_course-flutter": {
+      "completedLessons": [
+        "Dart Syntax, Variables, Null Safety"
+      ],
+      "progressPercent": 8,
+      "updatedAt": "2026-11-12T08:21:34.190Z"
+    }
+  },
+  "quizzes": [
+    {
+      "id": "0a339c51-fc9d-48a9-a606-35b167a2a940",
+      "topic": "React 19 & Hooks",
+      "difficulty": "medium",
+      "questions": [
+        {
+          "id": "q1",
+          "question": "What is the primary design philosophy behind React 19 & Hooks?",
+          "options": [
+            "High performance, modularity, and reusable component architecture",
+            "Single threaded synchronous monolithic execution",
+            "Manual memory allocation with pointers",
+            "Strict reliance on physical server hardware"
+          ],
+          "correctIndex": 0,
+          "explanation": "React 19 & Hooks emphasizes high performance, component reusability, and scalable modular design."
+        },
+        {
+          "id": "q2",
+          "question": "Which data structure or pattern is best suited for real-time reactivity in modern applications?",
+          "options": [
+            "Linear static arrays",
+            "Observer / Publish-Subscribe pattern & reactive streams",
+            "Nested loops without caching",
+            "Blocking I/O operations"
+          ],
+          "correctIndex": 1,
+          "explanation": "The Observer pattern and reactive streams enable real-time UI updates when state changes occur."
+        },
+        {
+          "id": "q3",
+          "question": "What is the best practice for handling sensitive keys and credentials?",
+          "options": [
+            "Hardcode them directly into frontend client code",
+            "Commit them in public git repositories",
+            "Use environment variables (.env) on a secured backend server",
+            "Pass them as plain text URL query parameters"
+          ],
+          "correctIndex": 2,
+          "explanation": "Environment variables stored on an isolated backend prevent exposing secrets to clients or version control."
+        }
+      ],
+      "createdAt": "2026-11-12T08:21:34.194Z"
+    },
+    {
+      "id": "d29958c8-4e15-412b-994e-58259881c002",
+      "topic": "Flutter & Dart",
+      "difficulty": "medium",
+      "questions": [
+        {
+          "id": "q1",
+          "question": "What is the primary design philosophy behind Flutter & Dart?",
+          "options": [
+            "High performance, modularity, and reusable component architecture",
+            "Single threaded synchronous monolithic execution",
+            "Manual memory allocation with pointers",
+            "Strict reliance on physical server hardware"
+          ],
+          "correctIndex": 0,
+          "explanation": "Flutter & Dart emphasizes high performance, component reusability, and scalable modular design."
+        },
+        {
+          "id": "q2",
+          "question": "Which data structure or pattern is best suited for real-time reactivity in modern applications?",
+          "options": [
+            "Linear static arrays",
+            "Observer / Publish-Subscribe pattern & reactive streams",
+            "Nested loops without caching",
+            "Blocking I/O operations"
+          ],
+          "correctIndex": 1,
+          "explanation": "The Observer pattern and reactive streams enable real-time UI updates when state changes occur."
+        },
+        {
+          "id": "q3",
+          "question": "What is the best practice for handling sensitive keys and credentials?",
+          "options": [
+            "Hardcode them directly into frontend client code",
+            "Commit them in public git repositories",
+            "Use environment variables (.env) on a secured backend server",
+            "Pass them as plain text URL query parameters"
+          ],
+          "correctIndex": 2,
+          "explanation": "Environment variables stored on an isolated backend prevent exposing secrets to clients or version control."
+        }
+      ],
+      "createdAt": "2026-11-12T07:51:03.352Z"
+    }
+  ],
+  "quizResults": [
+    {
+      "id": "6fa18e83-ecbc-4a59-b21c-3a6ccdb773b2",
+      "quizId": "0a339c51-fc9d-48a9-a606-35b167a2a940",
+      "userId": "guest_user",
+      "topic": "React 19 & Hooks",
+      "difficulty": "medium",
+      "totalQuestions": 3,
+      "correctCount": 3,
+      "scorePercent": 100,
+      "breakdown": [
+        {
+          "questionId": "q1",
+          "question": "What is the primary design philosophy behind React 19 & Hooks?",
+          "userAnswerIndex": 0,
+          "correctIndex": 0,
+          "userAnswerText": "High performance, modularity, and reusable component architecture",
+          "correctAnswerText": "High performance, modularity, and reusable component architecture",
+          "isCorrect": true,
+          "explanation": "React 19 & Hooks emphasizes high performance, component reusability, and scalable modular design."
+        },
+        {
+          "questionId": "q2",
+          "question": "Which data structure or pattern is best suited for real-time reactivity in modern applications?",
+          "userAnswerIndex": 1,
+          "correctIndex": 1,
+          "userAnswerText": "Observer / Publish-Subscribe pattern & reactive streams",
+          "correctAnswerText": "Observer / Publish-Subscribe pattern & reactive streams",
+          "isCorrect": true,
+          "explanation": "The Observer pattern and reactive streams enable real-time UI updates when state changes occur."
+        },
+        {
+          "questionId": "q3",
+          "question": "What is the best practice for handling sensitive keys and credentials?",
+          "userAnswerIndex": 2,
+          "correctIndex": 2,
+          "userAnswerText": "Use environment variables (.env) on a secured backend server",
+          "correctAnswerText": "Use environment variables (.env) on a secured backend server",
+          "isCorrect": true,
+          "explanation": "Environment variables stored on an isolated backend prevent exposing secrets to clients or version control."
+        }
+      ],
+      "timestamp": "2026-11-12T08:21:34.196Z"
+    }
+  ],
+  "settings": {
+    "geminiApiKey": "",
+    "geminiModel": "gemini-1.5-flash",
+    "aiTemperature": 0.7,
+    "systemName": "Vision AI Assistant"
+  }
+}
