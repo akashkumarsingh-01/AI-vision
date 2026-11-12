@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vision AI – Advanced All-in-One AI Assistant</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Marked.js for Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Highlight.js for Syntax Highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#6366F1',
+              600: '#4F46E5',
+              700: '#4338CA',
+            },
+            purple: {
+              500: '#A855F7',
+              600: '#9333EA',
+              700: '#7E22CE',
+            },
+            darkBg: '#0A0E1A',
+            darkCard: '#111827',
+            darkSurface: '#1F2937',
+            darkBorder: '#374151',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col md:flex-row overflow-x-hidden transition-colors duration-200">
+
+  <!-- Mobile Top Bar -->
+  <header class="md:hidden flex items-center justify-between px-4 py-3 bg-white dark:bg-darkCard border-b border-slate-200 dark:border-darkBorder sticky top-0 z-30">
+    <div class="flex items-center space-x-3">
+      <button id="mobileMenuBtn" class="text-slate-600 dark:text-slate-300 hover:text-brand-600 p-1">
+        <i class="fa-solid fa-bars text-xl"></i>
+      </button>
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-600 to-purple-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+          <i class="fa-solid fa-bolt text-sm"></i>
+        </div>
+        <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-brand-600 to-purple-500 bg-clip-text text-transparent">Vision AI</span>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button id="themeToggleMobile" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-darkSurface">
+        <i class="fa-solid fa-sun dark:hidden"></i>
+        <i class="fa-solid fa-moon hidden dark:inline"></i>
+      </button>
+      <div class="w-8 h-8 rounded-full bg-brand-600/20 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xs font-bold">
+        AI
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar Overlay for Mobile -->
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden transition-opacity"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-darkCard border-r border-slate-200 dark:border-darkBorder flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+    <!-- Brand Header -->
+    <div class="p-5 flex items-center justify-between border-b border-slate-100 dark:border-darkBorder/60">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-brand-500/30">
+          <i class="fa-solid fa-bolt text-lg"></i>
+        </div>
+        <div>
+          <h1 class="font-extrabold text-xl tracking-tight leading-none text-slate-900 dark:text-white">Vision <span class="text-brand-600 dark:text-brand-400">AI</span></h1>
+          <p class="text-[11px] font-medium text-slate-400 dark:text-slate-400 mt-1">All-in-One Intelligence</p>
+        </div>
+      </div>
+      <button id="closeMobileMenu" class="md:hidden text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+
+    <!-- New Chat Button -->
+    <div class="p-3">
+      <button id="newChatBtn" class="w-full flex items-center justify-center space-x-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-700 hover:to-purple-700 text-white font-semibold text-sm shadow-md shadow-brand-500/25 transition-all transform active:scale-95">
+        <i class="fa-solid fa-plus text-xs"></i>
+        <span>New Conversation</span>
+      </button>
+    </div>
+
+    <!-- Navigation Items -->
+    <nav class="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
+      <button data-nav="home" class="nav-btn active w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-house w-5 text-center"></i>
+          <span>Home</span>
+        </div>
+      </button>
+
+      <button data-nav="chat" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-message w-5 text-center"></i>
+          <span>AI Chat</span>
+        </div>
+        <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-purple-500/20 text-purple-600 dark:text-purple-400">Gemini</span>
+      </button>
+
+      <button data-nav="courses" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-graduation-cap w-5 text-center"></i>
+          <span>Courses</span>
+        </div>
+        <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-brand-500/20 text-brand-600 dark:text-brand-400">7 Techs</span>
+      </button>
+
+      <button data-nav="quiz" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-circle-question w-5 text-center"></i>
+          <span>Quiz Master</span>
+        </div>
+        <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">AI</span>
+      </button>
+
+      <button data-nav="learn" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-lightbulb w-5 text-center"></i>
+          <span>Learning Hub</span>
+        </div>
+      </button>
+
+      <button data-nav="history" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-clock-rotate-left w-5 text-center"></i>
+          <span>History</span>
+        </div>
+      </button>
+
+      <button data-nav="profile" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-user w-5 text-center"></i>
+          <span>Profile</span>
+        </div>
+      </button>
+
+      <button data-nav="settings" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-gear w-5 text-center"></i>
+          <span>Settings</span>
+        </div>
+      </button>
+
+      <!-- Sidebar Recent Conversations -->
+      <div class="pt-4 pb-2">
+        <p class="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Recent Chats</p>
+        <div id="sidebarRecentChats" class="mt-1 space-y-1">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sidebar Footer with Theme & User -->
+    <div class="p-3 border-t border-slate-100 dark:border-darkBorder/60 bg-slate-50/50 dark:bg-darkSurface/30 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5 overflow-hidden">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-600 to-purple-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="truncate">
+          <p id="sidebarUserName" class="text-xs font-semibold text-slate-900 dark:text-white truncate">Vision Explorer</p>
+          <p id="sidebarUserRole" class="text-[10px] text-slate-400 truncate">Online • Gemini Ready</p>
+        </div>
+      </div>
+      <button id="themeToggleDesktop" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-darkSurface transition-colors" title="Toggle Theme">
+        <i class="fa-solid fa-sun dark:hidden"></i>
+        <i class="fa-solid fa-moon hidden dark:inline"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 flex flex-col h-[calc(100vh-60px)] md:h-screen overflow-hidden">
+    <!-- Top Context Bar -->
+    <div class="h-14 px-6 border-b border-slate-200 dark:border-darkBorder bg-white dark:bg-darkCard flex items-center justify-between flex-shrink-0">
+      <div class="flex items-center space-x-3">
+        <h2 id="sectionTitle" class="text-base font-bold text-slate-900 dark:text-white">Home Dashboard</h2>
+        <div id="geminiStatusBadge" class="hidden sm:flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Gemini 1.5 Active</span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <a href="/flutter" target="_blank" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 flex items-center space-x-1.5 border border-blue-500/20" title="Open compiled native Flutter Web CanvasKit application in new tab">
+          <i class="fa-solid fa-mobile-screen"></i>
+          <span class="hidden sm:inline">Flutter App</span>
+        </a>
+        <button id="globalTtsToggle" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-darkSurface flex items-center space-x-1.5 border border-slate-200 dark:border-darkBorder">
+          <i class="fa-solid fa-volume-high text-brand-500"></i>
+          <span class="hidden sm:inline">TTS: On</span>
+        </button>
+        <button id="quickKeyModalBtn" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-brand-600 hover:bg-brand-700 text-white flex items-center space-x-1.5 shadow-sm">
+          <i class="fa-solid fa-key text-[10px]"></i>
+          <span class="hidden sm:inline">API Config</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Viewport Container -->
+    <div class="flex-1 overflow-y-auto" id="mainViewport">
+      <!-- 1. HOME SECTION -->
+      <section id="view-home" class="view-panel p-6 max-w-7xl mx-auto space-y-6">
+        <!-- Hero Welcome Banner -->
+        <div class="rounded-3xl p-8 bg-gradient-to-r from-brand-700 via-indigo-700 to-purple-800 text-white shadow-xl shadow-brand-700/20 relative overflow-hidden">
+          <div class="absolute -right-12 -top-12 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="relative z-10 max-w-3xl">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-semibold mb-4">
+              <i class="fa-solid fa-sparkles text-amber-300"></i>
+              <span>Vision AI 2.0 • Multimodal Intelligence</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Welcome back, <span id="homeWelcomeName">Explorer</span> 👋</h1>
+            <p class="mt-3 text-white/90 text-sm sm:text-base leading-relaxed">
+              Your comprehensive intelligent partner for programming, science, multimodal perception, technical quizzes, and real-time reasoning.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <button onclick="switchView('chat')" class="px-5 py-3 rounded-xl bg-white text-brand-700 hover:bg-slate-100 font-bold text-sm shadow-md transition-all active:scale-95 flex items-center space-x-2">
+                <i class="fa-solid fa-comment-dots"></i>
+                <span>Start AI Chat</span>
+              </button>
+              <button onclick="switchView('courses')" class="px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 border border-white/30 text-white font-bold text-sm backdrop-blur-md transition-all flex items-center space-x-2">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Explore Tech Courses</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Global Search Bar -->
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input type="text" id="homeSearchInput" placeholder="Search anything (e.g. Flutter state management, Python algorithms, React 19 hooks, Quizzes)..." 
+                 class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-sm transition">
+        </div>
+
+        <!-- Quick Access Feature Cards Grid -->
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">Core Intelligence Modules</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div onclick="switchView('chat')" class="cursor-pointer group p-5 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder hover:border-brand-500/50 shadow-sm hover:shadow-md transition-all">
+              <div class="w-10 h-10 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center text-lg mb-3 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-comments"></i>
+              </div>
+              <h4 class="font-bold text-base text-slate-900 dark:text-white">AI Chat Assistant</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Multi-turn real-time discussions with Gemini, markdown, and code syntax highlighting.</p>
+            </div>
+
+            <div onclick="switchView('chat')" class="cursor-pointer group p-5 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder hover:border-purple-500/50 shadow-sm hover:shadow-md transition-all">
+              <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg mb-3 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-eye"></i>
+              </div>
+              <h4 class="font-bold text-base text-slate-900 dark:text-white">Multimodal Vision</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Analyze screenshots, UI designs, diagrams, PDFs, and video clips with AI vision.</p>
+            </div>
+
+            <div onclick="switchView('courses')" class="cursor-pointer group p-5 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder hover:border-blue-500/50 shadow-sm hover:shadow-md transition-all">
+              <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg mb-3 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-laptop-code"></i>
+              </div>
+              <h4 class="font-bold text-base text-slate-900 dark:text-white">Interactive Courses</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Structured syllabus for Flutter, Python, React, JavaScript, Java, and HTML/CSS.</p>
+            </div>
+
+            <div onclick="switchView('quiz')" class="cursor-pointer group p-5 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder hover:border-emerald-500/50 shadow-sm hover:shadow-md transition-all">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg mb-3 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-circle-check"></i>
+              </div>
+              <h4 class="font-bold text-base text-slate-900 dark:text-white">AI Quiz Evaluator</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Generate dynamic tests, evaluate responses immediately, and review explanations.</p>
+            </div>
+
+            <div onclick="switchView('learn')" class="cursor-pointer group p-5 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder hover:border-amber-500/50 shadow-sm hover:shadow-md transition-all">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg mb-3 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <h4 class="font-bold text-base text-slate-900 dark:text-white">Explain Difficult Topics</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Break complex topics into intuitive analogies, generate study notes & cheat sheets.</p>
+            </div>
+
+            <div onclick="switchView('history')" class="cursor-pointer group p-5 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder hover:border-pink-500/50 shadow-sm hover:shadow-md transition-all">
+              <div class="w-10 h-10 rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-400 flex items-center justify-center text-lg mb-3 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+              </div>
+              <h4 class="font-bold text-base text-slate-900 dark:text-white">Activity & History</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Seamlessly resume conversations and review previous quiz metrics.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Prompts Chips -->
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">Trending AI Queries</h3>
+          <div class="flex flex-wrap gap-2" id="homePromptChips">
+            <!-- Dynamic prompt chips -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. AI CHAT SECTION -->
+      <section id="view-chat" class="view-panel hidden h-full flex flex-col">
+        <!-- Multimodal File Bar -->
+        <div class="px-6 py-2.5 bg-slate-100/70 dark:bg-darkSurface/50 border-b border-slate-200 dark:border-darkBorder flex items-center justify-between flex-wrap gap-2 text-xs">
+          <div class="flex items-center space-x-2">
+            <span class="font-semibold text-slate-500 dark:text-slate-400">Attach Media:</span>
+            <label class="cursor-pointer px-2.5 py-1 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-medium flex items-center space-x-1.5 transition">
+              <i class="fa-solid fa-image"></i>
+              <span>Image</span>
+              <input type="file" id="imageFileInput" accept="image/*" class="hidden">
+            </label>
+            <label class="cursor-pointer px-2.5 py-1 rounded-lg bg-pink-500/10 hover:bg-pink-500/20 text-pink-600 dark:text-pink-400 font-medium flex items-center space-x-1.5 transition">
+              <i class="fa-solid fa-file-pdf"></i>
+              <span>Document / PDF</span>
+              <input type="file" id="docFileInput" accept=".pdf,.txt,.md,.json" class="hidden">
+            </label>
+            <label class="cursor-pointer px-2.5 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-400 font-medium flex items-center space-x-1.5 transition">
+              <i class="fa-solid fa-video"></i>
+              <span>Video</span>
+              <input type="file" id="videoFileInput" accept="video/*" class="hidden">
+            </label>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button id="clearChatBtn" class="text-slate-500 hover:text-red-500 p-1" title="Clear current messages">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+            <button id="regenerateBtn" class="text-slate-500 hover:text-brand-500 p-1" title="Regenerate response">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Attachment Preview Bar (shown when file is selected) -->
+        <div id="fileUploadPreview" class="hidden px-6 py-2 bg-brand-50 dark:bg-brand-950/30 border-b border-brand-200 dark:border-brand-900/40 flex items-center justify-between text-xs">
+          <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-paperclip text-brand-600"></i>
+            <span id="filePreviewName" class="font-semibold text-brand-900 dark:text-brand-300">filename.ext</span>
+            <span id="filePreviewSize" class="text-slate-400">(0 KB)</span>
+          </div>
+          <button id="cancelFileAttachment" class="text-slate-400 hover:text-red-500">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Chat Messages Scroll Area -->
+        <div id="chatMessageList" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+          <!-- Empty state or message bubbles -->
+        </div>
+
+        <!-- Typing Animation Bar -->
+        <div id="chatTypingIndicator" class="hidden px-6 py-2 text-xs text-slate-400 dark:text-slate-500 flex items-center space-x-2">
+          <div class="flex space-x-1">
+            <span class="w-2 h-2 rounded-full bg-brand-500 animate-bounce"></span>
+            <span class="w-2 h-2 rounded-full bg-purple-500 animate-bounce" style="animation-delay: 0.15s"></span>
+            <span class="w-2 h-2 rounded-full bg-cyan-500 animate-bounce" style="animation-delay: 0.3s"></span>
+          </div>
+          <span id="chatTypingText">Vision AI is formulating answer...</span>
+        </div>
+
+        <!-- Floating Chat Input Bar -->
+        <div class="p-4 bg-white dark:bg-darkCard border-t border-slate-200 dark:border-darkBorder">
+          <form id="chatForm" class="flex items-end space-x-2 max-w-5xl mx-auto">
+            <!-- Voice Microphone button -->
+            <button type="button" id="micBtn" class="p-3 rounded-xl bg-slate-100 dark:bg-darkSurface text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition" title="Voice Input (Speech-to-Text)">
+              <i class="fa-solid fa-microphone text-base"></i>
+            </button>
+
+            <!-- Text input -->
+            <div class="flex-1 bg-slate-100 dark:bg-darkSurface rounded-2xl px-4 py-2 border border-transparent focus-within:border-brand-500 focus-within:bg-white dark:focus-within:bg-darkCard transition">
+              <textarea id="chatInput" rows="1" placeholder="Ask Vision AI anything (code, algorithms, document summaries, voice)..." 
+                        class="w-full bg-transparent resize-none text-sm text-slate-800 dark:text-slate-100 focus:outline-none max-h-32"></textarea>
+            </div>
+
+            <!-- Send button -->
+            <button type="submit" id="sendBtn" class="p-3 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-700 hover:to-purple-700 text-white font-semibold shadow-md shadow-brand-500/25 transition transform active:scale-95">
+              <i class="fa-solid fa-paper-plane text-sm"></i>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 3. COURSES SECTION -->
+      <section id="view-courses" class="view-panel hidden p-6 max-w-7xl mx-auto space-y-6">
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">Curated Technology Courses</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Master Flutter, Python, React, JavaScript, Java, and HTML/CSS with modular lesson tracking.</p>
+        </div>
+
+        <!-- Courses Grid -->
+        <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Dynamically populated courses -->
+        </div>
+
+        <!-- Course Detail Modal / Drawer -->
+        <div id="courseDetailModal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4">
+          <div class="bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-slate-200 dark:border-darkBorder flex items-center justify-between bg-gradient-to-r from-brand-600 to-purple-600 text-white">
+              <div>
+                <span id="modalCourseLevel" class="text-[11px] font-bold px-2 py-0.5 rounded bg-white/20">Beginner</span>
+                <h3 id="modalCourseTitle" class="text-xl font-bold mt-1">Course Title</h3>
+              </div>
+              <button onclick="closeCourseModal()" class="text-white/80 hover:text-white p-1">
+                <i class="fa-solid fa-xmark text-xl"></i>
+              </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1 space-y-4">
+              <p id="modalCourseDesc" class="text-sm text-slate-600 dark:text-slate-300"></p>
+              
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs font-semibold">
+                  <span>Course Progress</span>
+                  <span id="modalProgressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 dark:bg-darkSurface h-2 rounded-full overflow-hidden">
+                  <div id="modalProgressBar" class="bg-brand-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <h4 class="font-bold text-sm uppercase tracking-wider text-slate-400 mt-4">Modules & Interactive Lessons</h4>
+              <div id="modalModulesList" class="space-y-3">
+                <!-- Modules populated dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. QUIZ MASTER SECTION -->
+      <section id="view-quiz" class="view-panel hidden p-6 max-w-5xl mx-auto space-y-6">
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">AI Quiz Master</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Generate custom multiple choice quizzes with immediate evaluation, scoring, and explanations.</p>
+        </div>
+
+        <!-- Quiz Generator Card -->
+        <div id="quizGeneratorCard" class="p-6 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder shadow-sm space-y-4">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-purple-600 text-white flex items-center justify-center text-lg">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-base text-slate-900 dark:text-white">Create New AI Challenge</h3>
+              <p class="text-xs text-slate-500">Pick any programming language, topic, or concept</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+            <div class="sm:col-span-1">
+              <label class="block text-xs font-semibold mb-1 text-slate-600 dark:text-slate-400">Subject / Topic</label>
+              <input type="text" id="quizTopicInput" value="Flutter & Dart Architecture" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-darkSurface border border-slate-200 dark:border-darkBorder text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold mb-1 text-slate-600 dark:text-slate-400">Difficulty</label>
+              <select id="quizDifficultySelect" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-darkSurface border border-slate-200 dark:border-darkBorder text-sm">
+                <option value="beginner">Beginner</option>
+                <option value="medium" selected>Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold mb-1 text-slate-600 dark:text-slate-400">Questions Count</label>
+              <select id="quizCountSelect" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-darkSurface border border-slate-200 dark:border-darkBorder text-sm">
+                <option value="3">3 Questions</option>
+                <option value="5" selected>5 Questions</option>
+                <option value="10">10 Questions</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="generateQuizBtn" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-sparkles"></i>
+            <span>Generate & Start Quiz</span>
+          </button>
+        </div>
+
+        <!-- Quiz Taker Active Container -->
+        <div id="quizTakerCard" class="hidden space-y-6">
+          <div class="flex items-center justify-between p-4 bg-brand-500/10 border border-brand-500/20 rounded-2xl">
+            <span id="quizActiveTitle" class="font-bold text-brand-600 dark:text-brand-400">Topic: Flutter</span>
+            <span id="quizAnsweredCount" class="text-xs font-semibold text-slate-500">0 of 5 answered</span>
+          </div>
+
+          <div id="quizQuestionsContainer" class="space-y-4">
+            <!-- Questions rendered here -->
+          </div>
+
+          <button id="submitQuizBtn" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition">
+            Submit Answers & Evaluate
+          </button>
+        </div>
+
+        <!-- Quiz Result Container -->
+        <div id="quizResultCard" class="hidden space-y-6">
+          <!-- Populated upon evaluation -->
+        </div>
+
+        <!-- Past Quiz History -->
+        <div class="pt-6">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">Past Assessment Records</h3>
+          <div id="quizHistoryList" class="space-y-2">
+            <!-- Populated from server -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. LEARNING HUB SECTION -->
+      <section id="view-learn" class="view-panel hidden p-6 max-w-5xl mx-auto space-y-6">
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">AI Learning Hub</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">ELI5 explanations, high-yield study notes, and programming tutorials.</p>
+        </div>
+
+        <!-- Sub Tabs -->
+        <div class="flex space-x-2 border-b border-slate-200 dark:border-darkBorder pb-2">
+          <button data-learntab="explain" class="learn-tab active px-4 py-2 rounded-xl text-sm font-semibold transition">Explain Concept</button>
+          <button data-learntab="notes" class="learn-tab px-4 py-2 rounded-xl text-sm font-semibold transition">Study Notes</button>
+          <button data-learntab="code" class="learn-tab px-4 py-2 rounded-xl text-sm font-semibold transition">Code Assistant</button>
+        </div>
+
+        <!-- Explain Panel -->
+        <div id="learnPanel-explain" class="learn-subpanel space-y-4">
+          <div class="p-6 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder space-y-3">
+            <h3 class="font-bold text-base">Explain Complex Topics in Simple Language</h3>
+            <p class="text-xs text-slate-500">Transform complicated algorithms or scientific theorems into intuitive metaphors.</p>
+            <input type="text" id="learnExplainTopic" value="Quantum Computing & Qubits" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-darkSurface border border-slate-200 dark:border-darkBorder text-sm">
+            <div class="flex items-center space-x-3">
+              <select id="learnExplainLevel" class="px-3 py-2 rounded-xl bg-slate-50 dark:bg-darkSurface border border-slate-200 dark:border-darkBorder text-sm">
+                <option value="beginner">Like I am 10 (Analogies)</option>
+                <option value="intermediate" selected>Intermediate (Structured Architecture)</option>
+                <option value="advanced">Advanced (Deep Technical)</option>
+              </select>
+              <button id="runExplainBtn" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-sm transition">
+                Explain Concept
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes Panel -->
+        <div id="learnPanel-notes" class="learn-subpanel hidden space-y-4">
+          <div class="p-6 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder space-y-3">
+            <h3 class="font-bold text-base">Generate High-Yield Study Notes & Summaries</h3>
+            <p class="text-xs text-slate-500">Synthesize core formulas, bulleted cheat sheets, and interview review questions.</p>
+            <input type="text" id="learnNotesTopic" value="REST vs GraphQL vs gRPC" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-darkSurface border border-slate-200 dark:border-darkBorder text-sm">
+            <div class="flex items-center space-x-3">
+              <select id="learnNotesFormat" class="px-3 py-2 rounded-xl bg-slate-50 dark:bg-darkSurface border border-slate-200 dark:border-darkBorder text-sm">
+                <option value="cheat-sheet">Quick Reference Cheat Sheet</option>
+                <option value="detailed-summary">Comprehensive Study Summary</option>
+                <option value="interview-prep">Interview High-Yield Q&A</option>
+              </select>
+              <button id="runNotesBtn" class="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm shadow-sm transition">
+                Generate Notes
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code Assistant Panel -->
+        <div id="learnPanel-code" class="learn-subpanel hidden space-y-4">
+          <div class="p-6 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder space-y-3">
+            <h3 class="font-bold text-base">Programming Assistant & Bug Optimizer</h3>
+            <p class="text-xs text-slate-500">Paste code to detect memory leaks, race conditions, or get a refactored implementation.</p>
+            <textarea id="learnCodeSnippet" rows="6" class="w-full p-4 rounded-xl font-mono text-xs bg-slate-900 text-cyan-300 border border-slate-700 focus:outline-none">// Paste code snippet to debug
+function calculateFibonacci(n) {
+  if (n <= 1) return n;
+  return calculateFibonacci(n - 1) + calculateFibonacci(n - 2);
+}</textarea>
+            <div class="flex items-center space-x-3">
+              <select id="learnCodeLanguage" class="px-3 py-2 rounded-xl bg-slate-50 dark:bg-darkSurface border border-slate-200 dark:border-darkBorder text-sm">
+                <option value="javascript">JavaScript / TypeScript</option>
+                <option value="python">Python</option>
+                <option value="dart">Dart / Flutter</option>
+                <option value="java">Java</option>
+              </select>
+              <button id="runCodeBtn" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-sm transition">
+                Analyze & Refactor Code
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Learning Result Output Box -->
+        <div id="learnOutputBox" class="hidden p-6 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder shadow-sm space-y-3">
+          <div class="flex justify-between items-center border-b border-slate-100 dark:border-darkBorder pb-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">AI Pedagogical Analysis</span>
+            <button onclick="document.getElementById('learnOutputBox').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div id="learnOutputContent" class="markdown-body text-sm leading-relaxed"></div>
+        </div>
+      </section>
+
+      <!-- 6. HISTORY SECTION -->
+      <section id="view-history" class="view-panel hidden p-6 max-w-5xl mx-auto space-y-6">
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">Conversation & Activity History</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Revisit past discussions, review code snippets, and continue prior sessions.</p>
+        </div>
+
+        <div id="historyConversationsList" class="space-y-3">
+          <!-- Populated from server -->
+        </div>
+      </section>
+
+      <!-- 7. PROFILE SECTION -->
+      <section id="view-profile" class="view-panel hidden p-6 max-w-5xl mx-auto space-y-6">
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">User Profile & Learning Analytics</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage user preferences, view course completions, and track metrics.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder flex items-center space-x-6">
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-brand-600 to-purple-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg shadow-brand-500/30">
+            <i class="fa-solid fa-user-astronaut"></i>
+          </div>
+          <div class="space-y-1">
+            <h3 id="profileNameDisplay" class="text-xl font-bold text-slate-900 dark:text-white">Vision Explorer</h3>
+            <p id="profileEmailDisplay" class="text-xs text-slate-400">explorer@visionai.io</p>
+            <p id="profileBioDisplay" class="text-xs text-slate-500 dark:text-slate-400 pt-1">Exploring multimodal intelligence and modern cross-platform engineering.</p>
+          </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="p-4 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder text-center">
+            <p id="metricChats" class="text-2xl font-extrabold text-brand-600 dark:text-brand-400">0</p>
+            <p class="text-xs text-slate-400 mt-1">Chats</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder text-center">
+            <p id="metricQuizzes" class="text-2xl font-extrabold text-purple-600 dark:text-purple-400">0</p>
+            <p class="text-xs text-slate-400 mt-1">Quizzes</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder text-center">
+            <p id="metricAvgScore" class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">0%</p>
+            <p class="text-xs text-slate-400 mt-1">Avg Score</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder text-center">
+            <p id="metricLessons" class="text-2xl font-extrabold text-cyan-600 dark:text-cyan-400">0</p>
+            <p class="text-xs text-slate-400 mt-1">Lessons Done</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. SETTINGS SECTION -->
+      <section id="view-settings" class="view-panel hidden p-6 max-w-5xl mx-auto space-y-6">
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">Settings & Integration</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Securely manage Google Gemini API keys, models, speech, and themes.</p>
+        </div>
+
+        <!-- Gemini API Key Card -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-purple-600 text-white flex items-center justify-center text-lg">
+                <i class="fa-solid fa-key"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-base text-slate-900 dark:text-white">Google Gemini API Configuration</h3>
+                <p class="text-xs text-slate-500">Keys are stored securely on backend environment and never exposed to clients.</p>
+              </div>
+            </div>
+            <span id="settingsKeyStatusPill" class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-darkSurface text-slate-600 dark:text-slate-300">Checking...</span>
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <div>
+              <label class="block text-xs font-semibold mb-1 text-slate-600 dark:text-slate-400">Gemini API Key</label>
+              <input type="password" id="settingsApiKeyInput" placeholder="Paste Gemini API key (AIzaSy...)" 
+                     class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-darkSurface border border-slate-200 dark:border-darkBorder text-sm">
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold mb-1 text-slate-600 dark:text-slate-400">Gemini Model</label>
+              <select id="settingsModelSelect" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-darkSurface border border-slate-200 dark:border-darkBorder text-sm">
+                <option value="gemini-1.5-flash">gemini-1.5-flash (Fast & Multimodal)</option>
+                <option value="gemini-1.5-pro">gemini-1.5-pro (High Depth Reasoning)</option>
+                <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp (Experimental Next-Gen)</option>
+              </select>
+            </div>
+
+            <button id="saveApiKeyBtn" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md transition">
+              Verify & Save Configuration
+            </button>
+            <p id="settingsKeySaveResult" class="text-xs font-semibold hidden"></p>
+          </div>
+        </div>
+
+        <!-- Preferences -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder shadow-sm space-y-4">
+          <h3 class="font-bold text-base text-slate-900 dark:text-white">Audio & Speech Synthesis</h3>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold">Enable Text-to-Speech Responses</p>
+              <p class="text-xs text-slate-400">Speak out AI explanations automatically</p>
+            </div>
+            <input type="checkbox" id="settingsAutoSpeech" class="w-5 h-5 text-brand-600 rounded">
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

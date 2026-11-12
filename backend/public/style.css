@@ -1,0 +1,147 @@
+/* Custom scrollbars and transitions for Vision AI */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+.nav-btn {
+  color: #64748B;
+  transition: all 0.2s ease;
+}
+
+.dark .nav-btn {
+  color: #94A3B8;
+}
+
+.nav-btn:hover {
+  background-color: rgba(99, 102, 241, 0.08);
+  color: #4F46E5;
+}
+
+.dark .nav-btn:hover {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #818CF8;
+}
+
+.nav-btn.active {
+  background-color: rgba(99, 102, 241, 0.12);
+  color: #4F46E5;
+  font-weight: 600;
+  border-left: 3px solid #4F46E5;
+}
+
+.dark .nav-btn.active {
+  background-color: rgba(99, 102, 241, 0.2);
+  color: #818CF8;
+  border-left: 3px solid #818CF8;
+}
+
+/* Markdown styling within AI chat bubbles */
+.markdown-body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: inherit;
+}
+
+.markdown-body h1 { font-size: 1.35rem; }
+.markdown-body h2 { font-size: 1.2rem; }
+.markdown-body h3 { font-size: 1.05rem; }
+
+.markdown-body p {
+  margin-bottom: 0.75rem;
+}
+
+.markdown-body ul, .markdown-body ol {
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.markdown-body ul { list-style-type: disc; }
+.markdown-body ol { list-style-type: decimal; }
+
+.markdown-body code:not(pre code) {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  background-color: rgba(99, 102, 241, 0.1);
+  color: #4F46E5;
+}
+
+.dark .markdown-body code:not(pre code) {
+  background-color: rgba(14, 165, 233, 0.15);
+  color: #38BDF8;
+}
+
+.markdown-body pre {
+  margin: 0.85rem 0;
+  border-radius: 12px;
+  overflow-x: auto;
+  background-color: #0d1117 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  position: relative;
+}
+
+.markdown-body pre code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  background: transparent !important;
+}
+
+.code-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #94A3B8;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.code-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+}
+
+.learn-tab {
+  color: #64748B;
+}
+
+.dark .learn-tab {
+  color: #94A3B8;
+}
+
+.learn-tab.active {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #4F46E5;
+}
+
+.dark .learn-tab.active {
+  background-color: rgba(99, 102, 241, 0.25);
+  color: #818CF8;
+}
+
